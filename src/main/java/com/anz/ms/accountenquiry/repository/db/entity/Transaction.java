@@ -28,7 +28,7 @@ public class Transaction {
     private Double amount;
 
     @Column(name = "type", nullable = false)
-    private Integer transactionType;
+    private TransactionType transactionType;
 
     @Column(name = "narrative")
     private String transactionNarrative;

@@ -8,6 +8,8 @@ import com.anz.ms.accountenquiry.repository.db.AccountRepository;
 import com.anz.ms.accountenquiry.repository.db.TransactionRepository;
 import com.anz.ms.accountenquiry.repository.db.entity.Account;
 import com.anz.ms.accountenquiry.repository.db.entity.Transaction;
+import com.anz.ms.accountenquiry.repository.db.entity.TransactionType;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -40,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public TransactionResponseList retrieveTransactions(String accountNumber) {
+    public TransactionResponseList retrieveTransactions(@NotNull String accountNumber) {
         Account account = accountRepository.findByAccountNumber(accountNumber);
         List<Transaction> transactions = transactionRepository.findByAccount(account);
 
@@ -50,9 +52,9 @@ public class AccountServiceImpl implements AccountService {
                         .accountName(t.getAccount().getAccountName())
                         .valueDate(t.getValueDate())
                         .currency(t.getCurrency().getName())
-                        .debitAmount(t.getTransactionType() == 1 ? t.getAmount() : 0)
-                        .creditAmount(t.getTransactionType() == 2 ? t.getAmount() : 0)
-                        .transactionType(t.getTransactionType() == 1 ? "Credit": "Debit")
+                        .debitAmount(t.getTransactionType().equals(TransactionType.CREDIT) ? t.getAmount() : 0)
+                        .creditAmount(t.getTransactionType().equals(TransactionType.DEBIT) ? t.getAmount() : 0)
+                        .transactionType(t.getTransactionType().getName())
                         .transactionNarrative(t.getTransactionNarrative())
                         .build()).toList();
 
