@@ -11,7 +11,7 @@ public class TransactionResponse {
     private String accountNumber;
     private String accountName;
     private Timestamp valueDate;
-    private int currency;
+    private String currency;
     private double debitAmount;
     private double creditAmount;
     private String transactionType;

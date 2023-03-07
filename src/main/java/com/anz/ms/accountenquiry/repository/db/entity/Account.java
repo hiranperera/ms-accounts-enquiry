@@ -8,9 +8,9 @@ import java.sql.Timestamp;
 @Entity
 @Data
 public class Account {
+
     @Id
-    @SequenceGenerator(name = "account_account_id_seq", sequenceName = "account_account_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_account_id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id", unique = true, nullable = false)
     private Long accountId;
 
@@ -20,14 +20,16 @@ public class Account {
     @Column(name = "account_name", nullable = false)
     private String accountName;
 
-    @Column(name = "account_type", nullable = false)
-    private Integer accountType;
+    @ManyToOne
+    @JoinColumn(name = "account_type_id", nullable = false)
+    private AccountType accountType;
 
     @Column(name = "balance_date")
     private Timestamp balanceDate;
 
-    @Column(name = "currency", nullable = false)
-    private Integer Currency;
+    @ManyToOne
+    @JoinColumn(name = "currency_id", nullable = false)
+    private Currency currency;
 
     @Column(name = "opening_available_balance")
     private Double openingAvailableBalance;

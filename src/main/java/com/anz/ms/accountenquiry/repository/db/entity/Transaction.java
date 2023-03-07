@@ -9,8 +9,7 @@ import java.sql.Timestamp;
 @Data
 public class Transaction {
     @Id
-    @SequenceGenerator(name = "transaction_transaction_id_seq", sequenceName = "transaction_transaction_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_transaction_id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id", unique = true, nullable = false)
     private Long transactionId;
 
@@ -21,8 +20,9 @@ public class Transaction {
     @Column(name = "value_date")
     private Timestamp valueDate;
 
-    @Column(name = "currency", nullable = false)
-    private Integer currency;
+    @ManyToOne
+    @JoinColumn(name = "currency_id", nullable = false)
+    private Currency currency;
 
     @Column(name = "amount", nullable = false)
     private Double amount;

@@ -12,8 +12,8 @@ public class AccountResponse {
 
     private String accountNumber;
     private String accountName;
-    private int accountType;
+    private String accountType;
     private Timestamp balanceDate;
-    private int currency;
+    private String currency;
     private Double openingAvailableBalance;
 }
