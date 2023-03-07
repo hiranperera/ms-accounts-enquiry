@@ -9,11 +9,11 @@ import com.anz.ms.accountenquiry.repository.db.TransactionRepository;
 import com.anz.ms.accountenquiry.repository.db.entity.Account;
 import com.anz.ms.accountenquiry.repository.db.entity.Transaction;
 import com.anz.ms.accountenquiry.repository.db.entity.TransactionType;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Service

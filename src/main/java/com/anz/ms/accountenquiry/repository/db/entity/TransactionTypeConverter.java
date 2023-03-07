@@ -2,7 +2,8 @@ package com.anz.ms.accountenquiry.repository.db.entity;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import jakarta.validation.constraints.NotNull;
+
+import javax.validation.constraints.NotNull;
 
 @Converter(autoApply = true)
 public class TransactionTypeConverter implements AttributeConverter<TransactionType, Integer> {
