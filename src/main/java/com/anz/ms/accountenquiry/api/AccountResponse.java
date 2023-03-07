@@ -2,7 +2,6 @@ package com.anz.ms.accountenquiry.api;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
