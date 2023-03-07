@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -33,6 +35,7 @@ public class AccountController {
         log.debug("message=\"Transaction retrieval request received\"");
 
         TransactionResponseList transactionResponseList = accountService.retrieveTransactions(accountNumber);
+        transactionResponseList.add(linkTo(methodOn(AccountController.class).retrieveAllAccount()).withRel("accounts"));
 
         return new ResponseEntity<>(transactionResponseList, transactionResponseList.getHttpStatus());
     }
