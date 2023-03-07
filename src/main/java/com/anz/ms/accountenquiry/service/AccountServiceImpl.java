@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
                     .currency(a.getCurrency().getName())
                     .openingAvailableBalance(a.getOpeningAvailableBalance())
                     .build()
-        ).toList();
+        ).collect(Collectors.toList());
 
         return AccountResponseList.builder().accountResponseList(accountResponses).httpStatus(HttpStatus.OK).build();
     }
@@ -56,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
                         .creditAmount(t.getTransactionType().equals(TransactionType.DEBIT) ? t.getAmount() : 0)
                         .transactionType(t.getTransactionType().getName())
                         .transactionNarrative(t.getTransactionNarrative())
-                        .build()).toList();
+                        .build()).collect(Collectors.toList());
 
         return TransactionResponseList.builder().transactionResponseList(transactionResponses).httpStatus(HttpStatus.OK).build();
     }

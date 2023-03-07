@@ -1,7 +1,8 @@
 package com.anz.ms.accountenquiry.repository.db.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
+
+import javax.persistence.*;
 
 @Entity
 @Data

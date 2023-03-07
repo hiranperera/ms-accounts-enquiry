@@ -1,8 +1,7 @@
 package com.anz.ms.accountenquiry.repository.db.entity;
 
-import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Converter;
-
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import javax.validation.constraints.NotNull;
 
 @Converter(autoApply = true)

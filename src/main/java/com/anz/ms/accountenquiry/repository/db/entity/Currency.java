@@ -1,7 +1,8 @@
 package com.anz.ms.accountenquiry.repository.db.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
+
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -11,6 +12,6 @@ public class Currency {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column (name = "name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 }

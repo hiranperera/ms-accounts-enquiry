@@ -1,8 +1,8 @@
 package com.anz.ms.accountenquiry.repository.db.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
