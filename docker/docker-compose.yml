@@ -1,0 +1,11 @@
+version: "1"
+services:
+  mariadb:
+    container_name: account-enquiry-mqsql-db
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      DB_ADMIN_PASS: root
+      MYSQL_DATABASE: account-enquiry-db
+    ports:
+      - "3306:3306"
