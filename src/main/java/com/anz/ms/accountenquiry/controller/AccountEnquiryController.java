@@ -17,7 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-public class AccountController {
+public class AccountEnquiryController {
 
     private final AccountService accountService;
     private final UserParamValidator userParamValidator;
@@ -33,7 +33,7 @@ public class AccountController {
       AccountResponseList accountResponseList = accountService.retrieveAccounts(userCode);
 
       for (AccountResponse accountResponse : accountResponseList.getAccountResponseList()) {
-          accountResponse.add(linkTo(methodOn(AccountController.class)
+          accountResponse.add(linkTo(methodOn(AccountEnquiryController.class)
                   .retrieveTransactions(accountResponse.getAccountNumber())).withRel("transactions"));
       }
 
@@ -49,7 +49,7 @@ public class AccountController {
         userParamValidator.validateAccountNumber(accountNumber);
 
         TransactionResponseList transactionResponseList = accountService.retrieveTransactions(accountNumber);
-        transactionResponseList.add(linkTo(methodOn(AccountController.class).retrieveAccounts(
+        transactionResponseList.add(linkTo(methodOn(AccountEnquiryController.class).retrieveAccounts(
                 transactionResponseList.getAccount().getUser().getUserCode())).withRel("accounts"));
 
         return new ResponseEntity<>(transactionResponseList, transactionResponseList.getHttpStatus());

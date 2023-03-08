@@ -15,7 +15,7 @@ import static org.springframework.test.context.jdbc.Sql.*;
 @ActiveProfiles("test")
 @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"/db/cleanup.sql", "/db/test_data.sql"})
 @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = {"/db/cleanup.sql"})
-public class AccountControllerTest {
+public class AccountEnquiryControllerTest {
 
     private final String API_RETRIEVE_ACCOUNTS = "http://localhost:8080/account-enquiry/users/{userCode}/accounts";
     private final String API_RETRIEVE_TRANSACTIONS = "http://localhost:8080/account-enquiry/accounts/{accountNumber}/transactions";
