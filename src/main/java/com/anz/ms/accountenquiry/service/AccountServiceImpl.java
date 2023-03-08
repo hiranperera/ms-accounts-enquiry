@@ -4,6 +4,7 @@ import com.anz.ms.accountenquiry.api.AccountResponse;
 import com.anz.ms.accountenquiry.api.AccountResponseList;
 import com.anz.ms.accountenquiry.api.TransactionResponse;
 import com.anz.ms.accountenquiry.api.TransactionResponseList;
+import com.anz.ms.accountenquiry.exception.DataNotFoundException;
 import com.anz.ms.accountenquiry.repository.db.AccountRepository;
 import com.anz.ms.accountenquiry.repository.db.TransactionRepository;
 import com.anz.ms.accountenquiry.repository.db.UserRepository;
@@ -30,6 +31,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountResponseList retrieveAccounts(@NotNull String userCode) {
         User user = userRepository.findByUserCode(userCode);
+
+        if (user == null)
+            throw new DataNotFoundException(String.format("User not found for User Code: %s", userCode));
+
         List<Account> accounts = accountRepository.findByUser(user);
 
         List<AccountResponse> accountResponses = accounts.stream().map(a ->
@@ -49,6 +54,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public TransactionResponseList retrieveTransactions(@NotNull String accountNumber) {
         Account account = accountRepository.findByAccountNumber(accountNumber);
+
+        if (account == null)
+            throw new DataNotFoundException(String.format("Account not found for Account Number: %s", accountNumber));
+
         List<Transaction> transactions = transactionRepository.findByAccount(account);
 
         List<TransactionResponse> transactionResponses = transactions.stream().map(t ->
