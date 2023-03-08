@@ -3,7 +3,7 @@ package com.anz.ms.accountenquiry.repository.db.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -29,7 +29,7 @@ public class Account {
     private AccountType accountType;
 
     @Column(name = "balance_date")
-    private Timestamp balanceDate;
+    private LocalDate balanceDate;
 
     @ManyToOne
     @JoinColumn(name = "currency_id", nullable = false)

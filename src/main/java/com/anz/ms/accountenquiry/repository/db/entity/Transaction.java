@@ -3,7 +3,7 @@ package com.anz.ms.accountenquiry.repository.db.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -18,7 +18,7 @@ public class Transaction {
     private Account account;
 
     @Column(name = "value_date")
-    private Timestamp valueDate;
+    private LocalDate valueDate;
 
     @ManyToOne
     @JoinColumn(name = "currency_id", nullable = false)
