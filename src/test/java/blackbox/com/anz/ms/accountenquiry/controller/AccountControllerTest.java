@@ -5,12 +5,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.test.context.jdbc.Sql.*;
 
 @SpringBootTest(classes = Application.class)
 @ActiveProfiles("test")
+@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"/db/cleanup.sql", "/db/test_data.sql"})
+@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = {"/db/cleanup.sql"})
 public class AccountControllerTest {
 
     private final String API_RETRIEVE_ACCOUNTS = "http://localhost:8080/account-enquiry/user/{userCode}/accounts";
@@ -91,7 +95,7 @@ public class AccountControllerTest {
                 .then()
                 .statusCode(404)
                 .body("errorId", is("DATA_NOT_FOUND"))
-                .body("message", is("Account not found for User Code: INVALID_ACCOUNT_NUMBER"))
+                .body("message", is("Account not found for Account Number: INVALID_ACCOUNT_NUMBER"))
                 .body("status", is("NOT_FOUND"));
     }
 }
