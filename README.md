@@ -1,20 +1,43 @@
-# Read Me First
-The following was discovered as part of building this project:
-
-* The JVM level was changed from '1.8' to '17', review the [JDK Version Range](https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-Versions#jdk-version-range) on the wiki for more details.
+# Account Enquiry Service
+This is the microservice which used to retrieve the account and transaction details.
 
 # Getting Started
 
-### Reference Documentation
-For further reference, please consider the following sections:
+## Technologies Used
+The following technologies has been used to develop this service.
+* Java 11
+* SpringBoot
+* MySql
+* Flyway
+* JUnit5
+* RestAssured
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.0.4/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.0.4/maven-plugin/reference/html/#build-image)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/3.0.4/reference/htmlsingle/#data.sql.jpa-and-spring-data)
+## How to Run
+### Run the docker compose to start the database
+Need to move inside the ```/ms-accounts-enquiry/docker``` location and run the following command. 
 
-### Guides
-The following guides illustrate how to use some features concretely:
+```shell
+docker compose up
+```
 
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+### Start the application
+To start the application with sample data, use the ```dev``` spring profile and run the application. Use the corresponding
+spring profile to run the application (e.g.: ```prod``` for the production environment).
 
+```properties
+spring.profiles.active=dev
+```
+
+### Check API Documentation
+Once the application is up and running, go to the following URLs for the API documentation.
+<br><a href="http://localhost:8080/account-enquiry-docs" target="_blank">/account-enquiry-docs</a>
+
+
+To view the API documentation in interactive way, use the below swagger URL. This can be used to try-out existing APIs. 
+<br><a href="http://localhost:8080/swagger-ui/index.html" target="_blank">/swagger-ui/index.html</a>
+
+
+### Assumption
+The following assumptions has been taken for the development of this service.
+* Authentication and authorisation considered as out of scope. Hence, user validation for the requests is not considered.
+* Amounts of the accounts and transactions are taken directly from the database without any calculations.
