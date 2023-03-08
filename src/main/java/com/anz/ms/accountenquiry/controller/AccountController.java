@@ -20,7 +20,7 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @GetMapping("/account-enquiry/accounts/{user-code}")
+    @GetMapping("/account-enquiry/user/{user-code}/accounts")
     public ResponseEntity<AccountResponseList> retrieveAllAccount(
             @PathVariable(name = "user-code") String userCode
     ) {
