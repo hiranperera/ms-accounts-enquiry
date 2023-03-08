@@ -1,9 +1,7 @@
 package unit.com.anz.ms.accountenquiry.validator;
 
-import com.anz.ms.accountenquiry.exception.DataNotFoundException;
 import com.anz.ms.accountenquiry.exception.UserParameterInvalidException;
 import com.anz.ms.accountenquiry.validator.UserParamValidator;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,5 +29,14 @@ public class UserParamValidatorTest {
         });
 
         assertEquals(exception.getMessage(), "User code is blank");
+    }
+
+    @Test
+    public void validateParamSpecialCharacters() {
+        UserParameterInvalidException exception = assertThrows(UserParameterInvalidException.class, () -> {
+            userParamValidator.validateAccountNumber("ABC#");
+        });
+
+        assertEquals(exception.getMessage(), "Account number contains special characters");
     }
 }
