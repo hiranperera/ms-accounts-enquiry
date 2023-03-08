@@ -1,19 +1,19 @@
 CREATE TABLE `currency` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `account_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `account` (
   `account_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `account_name` varchar(255) NOT NULL,
-  `account_number` varchar(255) NOT NULL,
+  `account_number` varchar(255) NOT NULL UNIQUE,
   `account_type_id` int(11) NOT NULL,
   `balance_date` datetime DEFAULT NULL,
   `opening_available_balance` double DEFAULT NULL,

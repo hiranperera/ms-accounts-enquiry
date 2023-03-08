@@ -14,6 +14,10 @@ public class Account {
     @Column(name = "account_id", unique = true, nullable = false)
     private Long accountId;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @Column(name = "account_number", unique = true, nullable = false)
     private String accountNumber;
 

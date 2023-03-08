@@ -6,9 +6,11 @@ import com.anz.ms.accountenquiry.api.TransactionResponse;
 import com.anz.ms.accountenquiry.api.TransactionResponseList;
 import com.anz.ms.accountenquiry.repository.db.AccountRepository;
 import com.anz.ms.accountenquiry.repository.db.TransactionRepository;
+import com.anz.ms.accountenquiry.repository.db.UserRepository;
 import com.anz.ms.accountenquiry.repository.db.entity.Account;
 import com.anz.ms.accountenquiry.repository.db.entity.Transaction;
 import com.anz.ms.accountenquiry.repository.db.entity.TransactionType;
+import com.anz.ms.accountenquiry.repository.db.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,10 +25,12 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public AccountResponseList retrieveAccounts() {
-        List<Account> accounts = accountRepository.findAll();
+    public AccountResponseList retrieveAccounts(@NotNull String userCode) {
+        User user = userRepository.findByUserCode(userCode);
+        List<Account> accounts = accountRepository.findByUser(user);
 
         List<AccountResponse> accountResponses = accounts.stream().map(a ->
             AccountResponse.builder()
@@ -59,6 +63,8 @@ public class AccountServiceImpl implements AccountService {
                         .transactionNarrative(t.getTransactionNarrative())
                         .build()).collect(Collectors.toList());
 
-        return TransactionResponseList.builder().transactionResponseList(transactionResponses).httpStatus(HttpStatus.OK).build();
+        return TransactionResponseList.builder()
+                .account(account)
+                .transactionResponseList(transactionResponses).httpStatus(HttpStatus.OK).build();
     }
 }
