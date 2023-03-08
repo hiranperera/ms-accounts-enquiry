@@ -10,18 +10,18 @@ import org.springframework.stereotype.Component;
 public class UserParamValidator {
 
     public void validateUserCode(String userCode) {
-        if (StringUtils.isBlank(userCode)) {
-            log.error("User code is blank");
-
-            throw new UserParameterInvalidException("User code is blank");
-        }
+        validateBlank(userCode, "User code is blank");
     }
 
     public void validateAccountNumber(String accountNumber) {
-        if (StringUtils.isBlank(accountNumber)) {
-            log.error("Account number code is blank");
+        validateBlank(accountNumber, "Account number code is blank");
+    }
 
-            throw new UserParameterInvalidException("Account number code is blank");
+    private void validateBlank(String userCode, String s) {
+        if (StringUtils.isBlank(userCode)) {
+            log.error(s);
+
+            throw new UserParameterInvalidException(s);
         }
     }
 }
