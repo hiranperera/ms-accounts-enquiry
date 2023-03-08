@@ -12,6 +12,7 @@ import com.anz.ms.accountenquiry.repository.db.entity.Account;
 import com.anz.ms.accountenquiry.repository.db.entity.Transaction;
 import com.anz.ms.accountenquiry.repository.db.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
@@ -35,7 +37,11 @@ public class AccountServiceImpl implements AccountService {
         if (user == null)
             throw new DataNotFoundException(String.format("User not found for User Code: %s", userCode));
 
+        log.debug("message=\"User retrieved from the database for the user code: {}\"", userCode);
+
         List<Account> accounts = accountRepository.findByUser(user);
+
+        log.debug("message=\"Accounts ({}) retrieved for the user: {}\"", accounts.size(), userCode);
 
         List<AccountResponse> accountResponses = accounts.stream().map(entityResponseMapper::mapAccountToAccountResponse)
                 .collect(Collectors.toList());
@@ -50,7 +56,11 @@ public class AccountServiceImpl implements AccountService {
         if (account == null)
             throw new DataNotFoundException(String.format("Account not found for Account Number: %s", accountNumber));
 
+        log.debug("message=\"Account retrieved from the database for the account number: {}\"", accountNumber);
+
         List<Transaction> transactions = transactionRepository.findByAccount(account);
+
+        log.debug("message=\"Transactions ({}) retrieved from the database for the account number: {}\"", transactions.size(), accountNumber);
 
         List<TransactionResponse> transactionResponses = transactions.stream().map(entityResponseMapper::mapTransactionToTransactionResponse)
                 .collect(Collectors.toList());

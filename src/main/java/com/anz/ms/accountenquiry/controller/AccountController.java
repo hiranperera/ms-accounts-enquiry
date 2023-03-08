@@ -20,11 +20,11 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @GetMapping("/account-enquiry/user/{user-code}/accounts")
-    public ResponseEntity<AccountResponseList> retrieveAllAccount(
+    @GetMapping("/account-enquiry/users/{user-code}/accounts")
+    public ResponseEntity<AccountResponseList> retrieveAccounts(
             @PathVariable(name = "user-code") String userCode
     ) {
-      log.debug("message=\"All account retrieval request received\"");
+      log.info("message=\"Accounts retrieval request received\"");
 
       AccountResponseList accountResponseList = accountService.retrieveAccounts(userCode);
 
@@ -36,14 +36,14 @@ public class AccountController {
       return new ResponseEntity<>(accountResponseList, accountResponseList.getHttpStatus());
     }
 
-    @GetMapping("/account-enquiry/account/{account-number}/transactions")
+    @GetMapping("/account-enquiry/accounts/{account-number}/transactions")
     public ResponseEntity<TransactionResponseList> retrieveTransactions(
             @PathVariable(name = "account-number") String accountNumber
     ) {
-        log.debug("message=\"Transaction retrieval request received\"");
+        log.info("message=\"Transaction retrieval request received\"");
 
         TransactionResponseList transactionResponseList = accountService.retrieveTransactions(accountNumber);
-        transactionResponseList.add(linkTo(methodOn(AccountController.class).retrieveAllAccount(
+        transactionResponseList.add(linkTo(methodOn(AccountController.class).retrieveAccounts(
                 transactionResponseList.getAccount().getUser().getUserCode())).withRel("accounts"));
 
         return new ResponseEntity<>(transactionResponseList, transactionResponseList.getHttpStatus());
