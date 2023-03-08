@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @OpenAPIDefinition (info = @Info(
-		title = "Title", version = "1.0", description = "Description"))
+		title = "Account Transaction Enquiry Service",
+		version = "1.0",
+		description = "This is the account and transaction retrieval microservice."))
 public class Application {
 
 	public static void main(String[] args) {
