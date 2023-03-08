@@ -4,6 +4,7 @@ import com.anz.ms.accountenquiry.repository.db.entity.Account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 
@@ -15,6 +16,7 @@ public class TransactionResponseList extends RepresentationModel<TransactionResp
     private List<TransactionResponse> transactionResponseList;
 
     @JsonIgnore
+    @NonNull
     private Account account;
 
     @JsonIgnore
