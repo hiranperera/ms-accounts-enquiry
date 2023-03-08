@@ -6,7 +6,7 @@ import com.anz.ms.accountenquiry.api.TransactionResponseList;
 import javax.validation.constraints.NotNull;
 
 public interface AccountService {
-    AccountResponseList retrieveAccounts();
+    AccountResponseList retrieveAccounts(@NotNull String userCode);
 
     TransactionResponseList retrieveTransactions(@NotNull String accountNumber);
 }

@@ -1,5 +1,6 @@
 package com.anz.ms.accountenquiry.api;
 
+import com.anz.ms.accountenquiry.repository.db.entity.Account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,9 @@ import java.util.List;
 @Builder
 public class TransactionResponseList extends RepresentationModel<TransactionResponseList> {
     private List<TransactionResponse> transactionResponseList;
+
+    @JsonIgnore
+    private Account account;
 
     @JsonIgnore
     private HttpStatus httpStatus;
