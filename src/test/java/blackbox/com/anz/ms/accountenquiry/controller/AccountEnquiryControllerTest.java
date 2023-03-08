@@ -3,6 +3,7 @@ package blackbox.com.anz.ms.accountenquiry.controller;
 import com.anz.ms.accountenquiry.Application;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -11,14 +12,17 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.context.jdbc.Sql.*;
 
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"/db/cleanup.sql", "/db/test_data.sql"})
 @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = {"/db/cleanup.sql"})
 public class AccountEnquiryControllerTest {
 
-    private final String API_RETRIEVE_ACCOUNTS = "http://localhost:8080/account-enquiry/users/{userCode}/accounts";
-    private final String API_RETRIEVE_TRANSACTIONS = "http://localhost:8080/account-enquiry/accounts/{accountNumber}/transactions";
+    @LocalServerPort
+    private final int serverPort = 8090;
+
+    private final String API_RETRIEVE_ACCOUNTS = "http://localhost:" + serverPort + "/account-enquiry/users/{userCode}/accounts";
+    private final String API_RETRIEVE_TRANSACTIONS = "http://localhost:" + serverPort + "/account-enquiry/accounts/{accountNumber}/transactions";
 
     @Test
     public void retrieveAccountsForGivenUser2xx() {
@@ -35,7 +39,7 @@ public class AccountEnquiryControllerTest {
                 .body("accountResponseList[0].currency", is("AUD"))
                 .body("accountResponseList[0].openingAvailableBalance", is(6800.57F))
                 .body("accountResponseList[0].links", notNullValue())
-                .body("accountResponseList[0].links[0].href", is("http://localhost:8080/account-enquiry/account/ACCNUMBER_123456/transactions"))
+                .body("accountResponseList[0].links[0].href", is(API_RETRIEVE_TRANSACTIONS.replaceFirst("\\{accountNumber\\}", "ACCNUMBER_123456")))
                 .body("accountResponseList[1].accountNumber", is("ACCNUMBER_123457"))
                 .body("accountResponseList[1].accountName", is("ACCNAME_PERSONAL_2"))
                 .body("accountResponseList[1].accountType", is("Savings"))
@@ -43,7 +47,7 @@ public class AccountEnquiryControllerTest {
                 .body("accountResponseList[1].currency", is("AUD"))
                 .body("accountResponseList[1].openingAvailableBalance", equalTo(9000.33F))
                 .body("accountResponseList[1].links", notNullValue())
-                .body("accountResponseList[1].links[0].href", is("http://localhost:8080/account-enquiry/account/ACCNUMBER_123457/transactions"));
+                .body("accountResponseList[1].links[0].href", is(API_RETRIEVE_TRANSACTIONS.replaceFirst("\\{accountNumber\\}", "ACCNUMBER_123457")));
     }
 
     @Test
@@ -70,7 +74,7 @@ public class AccountEnquiryControllerTest {
                 .body("transactionResponseList[1].creditAmount", is(0F))
                 .body("transactionResponseList[1].transactionType", is("Debit"))
                 .body("transactionResponseList[1].transactionNarrative", is("test transaction"))
-                .body("_links.accounts.href", is("http://localhost:8080/account-enquiry/user/U0003/accounts"));
+                .body("_links.accounts.href", is(API_RETRIEVE_ACCOUNTS.replaceFirst("\\{userCode\\}", "U0003")));
     }
 
     @Test
@@ -93,7 +97,7 @@ public class AccountEnquiryControllerTest {
                 .when()
                 .get(API_RETRIEVE_ACCOUNTS, " ")
                 .then()
-                .statusCode(404)
+                .statusCode(400)
                 .body("errorId", is("USER_PARAM_INVALID"))
                 .body("message", is("User code is blank"))
                 .body("status", is("BAD_REQUEST"));
@@ -119,7 +123,7 @@ public class AccountEnquiryControllerTest {
                 .when()
                 .get(API_RETRIEVE_TRANSACTIONS, " ")
                 .then()
-                .statusCode(404)
+                .statusCode(400)
                 .body("errorId", is("USER_PARAM_INVALID"))
                 .body("message", is("Account number code is blank"))
                 .body("status", is("BAD_REQUEST"));
