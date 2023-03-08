@@ -22,7 +22,7 @@ docker compose up
 
 ### Start the application
 To start the application with sample data, use the ```dev``` spring profile and run the application. Use the corresponding
-spring profile to run the application (e.g.: ```prod``` for the production environment).
+spring profile to run the application (e.g.,: ```prod``` for the production environment).
 
 ```properties
 spring.profiles.active=dev

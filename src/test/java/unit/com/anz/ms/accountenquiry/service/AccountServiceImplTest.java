@@ -7,7 +7,7 @@ import com.anz.ms.accountenquiry.api.TransactionResponseList;
 import com.anz.ms.accountenquiry.exception.DataNotFoundException;
 import com.anz.ms.accountenquiry.repository.db.AccountRepository;
 import com.anz.ms.accountenquiry.repository.db.TransactionRepository;
-import com.anz.ms.accountenquiry.repository.db.UserRepository;;
+import com.anz.ms.accountenquiry.repository.db.UserRepository;
 import com.anz.ms.accountenquiry.repository.db.entity.Account;
 import com.anz.ms.accountenquiry.service.AccountServiceImpl;
 import com.anz.ms.accountenquiry.service.EntityResponseMapper;
@@ -121,9 +121,7 @@ public class AccountServiceImplTest {
     public void testRetrieveTransactionsForInvalidAccount() {
         when(accountRepository.findByAccountNumber(any())).thenReturn(null);
 
-        DataNotFoundException exception = assertThrows(DataNotFoundException.class, () -> {
-            accountService.retrieveTransactions("INVALID_ACC");
-        });
+        DataNotFoundException exception = assertThrows(DataNotFoundException.class, () -> accountService.retrieveTransactions("INVALID_ACC"));
 
         assertEquals(exception.getMessage(), "Account not found for Account Number: INVALID_ACC");
     }
@@ -188,9 +186,7 @@ public class AccountServiceImplTest {
     public void testRetrieveAccountsForInvalidUser() {
         when(accountRepository.findByAccountNumber(any())).thenReturn(null);
 
-        DataNotFoundException exception = assertThrows(DataNotFoundException.class, () -> {
-            accountService.retrieveAccounts("INVALID_USER");
-        });
+        var exception = assertThrows(DataNotFoundException.class, () -> accountService.retrieveAccounts("INVALID_USER"));
 
         assertEquals(exception.getMessage(), "User not found for User Code: INVALID_USER");
     }

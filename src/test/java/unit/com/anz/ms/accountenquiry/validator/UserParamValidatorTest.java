@@ -24,18 +24,14 @@ public class UserParamValidatorTest {
 
     @Test
     public void validateParamInvalid() {
-        UserParameterInvalidException exception = assertThrows(UserParameterInvalidException.class, () -> {
-            userParamValidator.validateUserCode(" ");
-        });
+        UserParameterInvalidException exception = assertThrows(UserParameterInvalidException.class, () -> userParamValidator.validateUserCode(" "));
 
         assertEquals(exception.getMessage(), "User code is blank");
     }
 
     @Test
     public void validateParamSpecialCharacters() {
-        UserParameterInvalidException exception = assertThrows(UserParameterInvalidException.class, () -> {
-            userParamValidator.validateAccountNumber("ABC#");
-        });
+        UserParameterInvalidException exception = assertThrows(UserParameterInvalidException.class, () -> userParamValidator.validateAccountNumber("ABC#"));
 
         assertEquals(exception.getMessage(), "Account number contains special characters");
     }

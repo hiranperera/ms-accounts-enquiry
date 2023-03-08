@@ -8,7 +8,7 @@ public enum ErrorId {
     UNKNOWN ("UNKNOWN"),
     USER_PARAM_INVALID("USER_PARAM_INVALID");
 
-    private String errorId;
+    private final String errorId;
 
     ErrorId(String errorId) {
         this.errorId = errorId;

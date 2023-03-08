@@ -13,7 +13,7 @@ public class TestDataProvider {
                 .name(accountTypeName)
                 .build();
 
-        Account account = Account.builder()
+        return Account.builder()
                 .accountId(1L)
                 .accountNumber(accountNumber)
                 .accountType(savingsAccountType)
@@ -23,8 +23,6 @@ public class TestDataProvider {
                 .openingAvailableBalance(balance)
                 .user(getUser("USERCODE", "USERNAME"))
                 .build();
-
-        return account;
     }
 
     public static Transaction getValidTransaction(Account account, String description, String transactionCurrencyName, Double transactionAmount, LocalDate transactionDate) {
