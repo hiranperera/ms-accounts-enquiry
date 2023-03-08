@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 @Slf4j
 public class UserParamValidator {
 
-    private final Pattern specialCharacterPattern = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+    private final Pattern specialCharacterPattern = Pattern.compile("[^a-z0-9_]", Pattern.CASE_INSENSITIVE);
 
     public void validateUserCode(String userCode) {
         validateBlank(userCode, "User code is blank");
