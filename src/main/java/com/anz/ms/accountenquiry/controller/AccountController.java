@@ -4,6 +4,7 @@ import com.anz.ms.accountenquiry.api.AccountResponse;
 import com.anz.ms.accountenquiry.api.AccountResponseList;
 import com.anz.ms.accountenquiry.api.TransactionResponseList;
 import com.anz.ms.accountenquiry.service.AccountService;
+import com.anz.ms.accountenquiry.validator.UserParamValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class AccountController {
 
     private final AccountService accountService;
+    private final UserParamValidator userParamValidator;
 
     @GetMapping("/account-enquiry/users/{user-code}/accounts")
     public ResponseEntity<AccountResponseList> retrieveAccounts(
             @PathVariable(name = "user-code") String userCode
     ) {
       log.info("message=\"Accounts retrieval request received\"");
+
+      userParamValidator.validateUserCode(userCode);
 
       AccountResponseList accountResponseList = accountService.retrieveAccounts(userCode);
 
@@ -41,6 +45,8 @@ public class AccountController {
             @PathVariable(name = "account-number") String accountNumber
     ) {
         log.info("message=\"Transaction retrieval request received\"");
+
+        userParamValidator.validateAccountNumber(accountNumber);
 
         TransactionResponseList transactionResponseList = accountService.retrieveTransactions(accountNumber);
         transactionResponseList.add(linkTo(methodOn(AccountController.class).retrieveAccounts(

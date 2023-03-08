@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum ErrorId {
     DATA_NOT_FOUND ("DATA_NOT_FOUND"),
-    UNKNOWN ("UNKNOWN");
+    UNKNOWN ("UNKNOWN"),
+    USER_PARAM_INVALID("USER_PARAM_INVALID");
 
     private String errorId;
 

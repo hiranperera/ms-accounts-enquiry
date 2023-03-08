@@ -25,6 +25,19 @@ public class AccountEnquiryExceptionHandler {
                         .build(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UserParameterInvalidException.class)
+    public ResponseEntity<ApiError> handleUserParameterInvalidException(final UserParameterInvalidException exception) {
+        logException(exception);
+
+        return new ResponseEntity<>(
+                ApiError
+                        .builder()
+                        .errorId(ErrorId.USER_PARAM_INVALID.getErrorId())
+                        .message(exception.getMessage())
+                        .status(HttpStatus.BAD_REQUEST)
+                        .build(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleException(final Exception exception) {
         logException(exception);

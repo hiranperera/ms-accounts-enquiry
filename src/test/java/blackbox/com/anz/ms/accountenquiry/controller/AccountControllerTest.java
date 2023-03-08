@@ -17,8 +17,8 @@ import static org.springframework.test.context.jdbc.Sql.*;
 @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = {"/db/cleanup.sql"})
 public class AccountControllerTest {
 
-    private final String API_RETRIEVE_ACCOUNTS = "http://localhost:8080/account-enquiry/user/{userCode}/accounts";
-    private final String API_RETRIEVE_TRANSACTIONS = "http://localhost:8080/account-enquiry/account/{accountNumber}/transactions";
+    private final String API_RETRIEVE_ACCOUNTS = "http://localhost:8080/account-enquiry/users/{userCode}/accounts";
+    private final String API_RETRIEVE_TRANSACTIONS = "http://localhost:8080/account-enquiry/accounts/{accountNumber}/transactions";
 
     @Test
     public void retrieveAccountsForGivenUser2xx() {
@@ -87,6 +87,19 @@ public class AccountControllerTest {
     }
 
     @Test
+    public void retrieveAccountsForBlankUser4xx() {
+        given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get(API_RETRIEVE_ACCOUNTS, " ")
+                .then()
+                .statusCode(404)
+                .body("errorId", is("USER_PARAM_INVALID"))
+                .body("message", is("User code is blank"))
+                .body("status", is("BAD_REQUEST"));
+    }
+
+    @Test
     public void retrieveTransactionsForInvalidAccount_4xx() {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -97,5 +110,18 @@ public class AccountControllerTest {
                 .body("errorId", is("DATA_NOT_FOUND"))
                 .body("message", is("Account not found for Account Number: INVALID_ACCOUNT_NUMBER"))
                 .body("status", is("NOT_FOUND"));
+    }
+
+    @Test
+    public void retrieveTransactionsForBlankAccount_4xx() {
+        given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get(API_RETRIEVE_TRANSACTIONS, " ")
+                .then()
+                .statusCode(404)
+                .body("errorId", is("USER_PARAM_INVALID"))
+                .body("message", is("Account number code is blank"))
+                .body("status", is("BAD_REQUEST"));
     }
 }
