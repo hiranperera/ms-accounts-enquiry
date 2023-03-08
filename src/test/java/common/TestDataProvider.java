@@ -16,12 +16,6 @@ public class TestDataProvider {
                 .name(accountTypeName)
                 .build();
 
-        User user = User.builder()
-                .id(1)
-                .name("USERNAME")
-                .userCode("USERCODE001")
-                .build();
-
         Account account = Account.builder()
                 .accountId(1L)
                 .accountNumber(accountNumber)
@@ -30,10 +24,18 @@ public class TestDataProvider {
                 .accountName(accountName)
                 .balanceDate(date)
                 .openingAvailableBalance(balance)
-                .user(user)
+                .user(getUser("USERCODE", "USERNAME"))
                 .build();
 
         return account;
+    }
+
+    public static User getUser(String code, String name) {
+        return User.builder()
+                .id(1)
+                .name(name)
+                .userCode(code)
+                .build();
     }
 
     public static Currency getCurrency(@NotNull String currencyName) {
