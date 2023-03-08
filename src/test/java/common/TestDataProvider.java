@@ -1,9 +1,6 @@
 package common;
 
-import com.anz.ms.accountenquiry.repository.db.entity.Account;
-import com.anz.ms.accountenquiry.repository.db.entity.AccountType;
-import com.anz.ms.accountenquiry.repository.db.entity.Currency;
-import com.anz.ms.accountenquiry.repository.db.entity.User;
+import com.anz.ms.accountenquiry.repository.db.entity.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -28,6 +25,18 @@ public class TestDataProvider {
                 .build();
 
         return account;
+    }
+
+    public static Transaction getValidTransaction(Account account, String description, String transactionCurrencyName, Double transactionAmount, LocalDate transactionDate) {
+        return Transaction.builder()
+                .transactionId(1L)
+                .account(account)
+                .transactionType(TransactionType.CREDIT)
+                .transactionNarrative(description)
+                .currency(TestDataProvider.getCurrency(transactionCurrencyName))
+                .amount(transactionAmount)
+                .valueDate(transactionDate)
+                .build();
     }
 
     public static User getUser(String code, String name) {
