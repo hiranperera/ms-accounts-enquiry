@@ -24,7 +24,7 @@ public class EntityResponseMapperTest {
 
         EntityResponseMapper entityResponseMapper = new EntityResponseMapper();
 
-        AccountResponse accountResponse = entityResponseMapper.mapAccountResponse(TestDataProvider.getValidAccount(
+        AccountResponse accountResponse = entityResponseMapper.mapAccountToAccountResponse(TestDataProvider.getValidAccount(
                 accountName, accountNumber, accountTypeName, currencyName, balance, date));
 
         assertEquals(accountResponse.getAccountName(), accountName);
@@ -63,7 +63,7 @@ public class EntityResponseMapperTest {
 
         EntityResponseMapper entityResponseMapper = new EntityResponseMapper();
 
-        TransactionResponse transactionResponse = entityResponseMapper.mapTransactionResponse(transaction);
+        TransactionResponse transactionResponse = entityResponseMapper.mapTransactionToTransactionResponse(transaction);
 
         assertEquals(transactionResponse.getTransactionType(), TransactionType.CREDIT.getName());
         assertEquals(transactionResponse.getAccountName(), accountName);
@@ -103,7 +103,7 @@ public class EntityResponseMapperTest {
 
         EntityResponseMapper entityResponseMapper = new EntityResponseMapper();
 
-        TransactionResponse transactionResponse = entityResponseMapper.mapTransactionResponse(transaction);
+        TransactionResponse transactionResponse = entityResponseMapper.mapTransactionToTransactionResponse(transaction);
 
         assertEquals(transactionResponse.getTransactionType(), TransactionType.DEBIT.getName());
         assertEquals(transactionResponse.getAccountName(), accountName);

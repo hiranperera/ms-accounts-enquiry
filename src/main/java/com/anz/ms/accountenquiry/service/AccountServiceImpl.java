@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
 
         List<Account> accounts = accountRepository.findByUser(user);
 
-        List<AccountResponse> accountResponses = accounts.stream().map(entityResponseMapper::mapAccountResponse)
+        List<AccountResponse> accountResponses = accounts.stream().map(entityResponseMapper::mapAccountToAccountResponse)
                 .collect(Collectors.toList());
 
         return AccountResponseList.builder().accountResponseList(accountResponses).httpStatus(HttpStatus.OK).build();
@@ -52,7 +52,7 @@ public class AccountServiceImpl implements AccountService {
 
         List<Transaction> transactions = transactionRepository.findByAccount(account);
 
-        List<TransactionResponse> transactionResponses = transactions.stream().map(entityResponseMapper::mapTransactionResponse)
+        List<TransactionResponse> transactionResponses = transactions.stream().map(entityResponseMapper::mapTransactionToTransactionResponse)
                 .collect(Collectors.toList());
 
         return TransactionResponseList.builder()

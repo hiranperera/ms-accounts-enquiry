@@ -72,7 +72,7 @@ public class AccountServiceImplTest {
                 TestDataProvider.getValidTransaction(account, transactionDescription2, transactionCurrency2, transactionAmount2, date)
         ));
 
-        when(entityResponseMapper.mapTransactionResponse(any()))
+        when(entityResponseMapper.mapTransactionToTransactionResponse(any()))
                 .thenReturn(TransactionResponse.builder()
                         .currency(transactionCurrency1)
                         .transactionNarrative(transactionDescription1)
@@ -147,7 +147,7 @@ public class AccountServiceImplTest {
                 TestDataProvider.getValidAccount(accountName1, accountNumber1, accountType1, accountCurrency1, accountBalance1, date),
                 TestDataProvider.getValidAccount(accountName2, accountNumber2, accountType2, accountCurrency2, accountBalance2, date))
         );
-        when(entityResponseMapper.mapAccountResponse(any()))
+        when(entityResponseMapper.mapAccountToAccountResponse(any()))
                 .thenReturn(AccountResponse.builder()
                         .accountNumber(accountNumber1)
                         .accountName(accountName1)
