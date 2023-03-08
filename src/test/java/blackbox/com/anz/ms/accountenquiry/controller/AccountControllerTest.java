@@ -17,7 +17,7 @@ public class AccountControllerTest {
     private final String API_RETRIEVE_TRANSACTIONS = "http://localhost:8080/account-enquiry/account/{accountNumber}/transactions";
 
     @Test
-    public void retrieveAccountsForGivenUser_2xx() {
+    public void retrieveAccountsForGivenUser2xx() {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
@@ -43,7 +43,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void retrieveTransactionForGivenAccount_2xx() {
+    public void retrieveTransactionForGivenAccount2xx() {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
@@ -70,7 +70,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void retrieveAccountsForInvalidUser_4xx() {
+    public void retrieveAccountsForInvalidUser4xx() {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
