@@ -10,7 +10,6 @@ import com.anz.ms.accountenquiry.repository.db.TransactionRepository;
 import com.anz.ms.accountenquiry.repository.db.UserRepository;
 import com.anz.ms.accountenquiry.repository.db.entity.Account;
 import com.anz.ms.accountenquiry.repository.db.entity.Transaction;
-import com.anz.ms.accountenquiry.repository.db.entity.TransactionType;
 import com.anz.ms.accountenquiry.repository.db.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +26,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final EntityResponseMapper entityResponseMapper;
 
     @Override
     public AccountResponseList retrieveAccounts(@NotNull String userCode) {
@@ -37,16 +37,8 @@ public class AccountServiceImpl implements AccountService {
 
         List<Account> accounts = accountRepository.findByUser(user);
 
-        List<AccountResponse> accountResponses = accounts.stream().map(a ->
-            AccountResponse.builder()
-                    .accountNumber(a.getAccountNumber())
-                    .accountName(a.getAccountName())
-                    .accountType(a.getAccountType().getName())
-                    .balanceDate(a.getBalanceDate())
-                    .currency(a.getCurrency().getName())
-                    .openingAvailableBalance(a.getOpeningAvailableBalance())
-                    .build()
-        ).collect(Collectors.toList());
+        List<AccountResponse> accountResponses = accounts.stream().map(entityResponseMapper::mapAccountResponse)
+                .collect(Collectors.toList());
 
         return AccountResponseList.builder().accountResponseList(accountResponses).httpStatus(HttpStatus.OK).build();
     }
@@ -60,17 +52,8 @@ public class AccountServiceImpl implements AccountService {
 
         List<Transaction> transactions = transactionRepository.findByAccount(account);
 
-        List<TransactionResponse> transactionResponses = transactions.stream().map(t ->
-                TransactionResponse.builder()
-                        .accountNumber(t.getAccount().getAccountNumber())
-                        .accountName(t.getAccount().getAccountName())
-                        .valueDate(t.getValueDate())
-                        .currency(t.getCurrency().getName())
-                        .debitAmount(t.getTransactionType().equals(TransactionType.CREDIT) ? t.getAmount() : 0)
-                        .creditAmount(t.getTransactionType().equals(TransactionType.DEBIT) ? t.getAmount() : 0)
-                        .transactionType(t.getTransactionType().getName())
-                        .transactionNarrative(t.getTransactionNarrative())
-                        .build()).collect(Collectors.toList());
+        List<TransactionResponse> transactionResponses = transactions.stream().map(entityResponseMapper::mapTransactionResponse)
+                .collect(Collectors.toList());
 
         return TransactionResponseList.builder()
                 .account(account)
