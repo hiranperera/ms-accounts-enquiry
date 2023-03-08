@@ -1,10 +1,12 @@
 package com.anz.ms.accountenquiry.repository.db.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@Builder
 @Entity
 @Data
 public class Account {

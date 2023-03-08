@@ -29,8 +29,8 @@ public class EntityResponseMapper {
                 .accountName(transaction.getAccount().getAccountName())
                 .valueDate(transaction.getValueDate())
                 .currency(transaction.getCurrency().getName())
-                .debitAmount(transaction.getTransactionType().equals(TransactionType.CREDIT) ? transaction.getAmount() : 0)
-                .creditAmount(transaction.getTransactionType().equals(TransactionType.DEBIT) ? transaction.getAmount() : 0)
+                .debitAmount(transaction.getTransactionType().equals(TransactionType.DEBIT) ? transaction.getAmount() : 0)
+                .creditAmount(transaction.getTransactionType().equals(TransactionType.CREDIT) ? transaction.getAmount() : 0)
                 .transactionType(transaction.getTransactionType().getName())
                 .transactionNarrative(transaction.getTransactionNarrative())
                 .build();

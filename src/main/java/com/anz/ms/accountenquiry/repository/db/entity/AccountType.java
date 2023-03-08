@@ -1,11 +1,13 @@
 package com.anz.ms.accountenquiry.repository.db.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
 public class AccountType {
 
     @Id
