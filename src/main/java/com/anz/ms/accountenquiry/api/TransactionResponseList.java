@@ -18,7 +18,4 @@ public class TransactionResponseList extends RepresentationModel<TransactionResp
     @JsonIgnore
     @NonNull
     private Account account;
-
-    @JsonIgnore
-    private HttpStatus httpStatus;
 }

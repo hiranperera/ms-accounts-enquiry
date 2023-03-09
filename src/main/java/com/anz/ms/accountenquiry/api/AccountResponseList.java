@@ -11,7 +11,4 @@ import java.util.List;
 @Builder
 public class AccountResponseList {
     private List<AccountResponse> accountResponseList;
-
-    @JsonIgnore
-    private HttpStatus httpStatus;
 }

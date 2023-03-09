@@ -46,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
         List<AccountResponse> accountResponses = accounts.stream().map(entityResponseMapper::mapAccountToAccountResponse)
                 .collect(Collectors.toList());
 
-        return AccountResponseList.builder().accountResponseList(accountResponses).httpStatus(HttpStatus.OK).build();
+        return AccountResponseList.builder().accountResponseList(accountResponses).build();
     }
 
     @Override
@@ -67,6 +67,6 @@ public class AccountServiceImpl implements AccountService {
 
         return TransactionResponseList.builder()
                 .account(account)
-                .transactionResponseList(transactionResponses).httpStatus(HttpStatus.OK).build();
+                .transactionResponseList(transactionResponses).build();
     }
 }

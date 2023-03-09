@@ -1,12 +1,12 @@
 package com.anz.ms.accountenquiry.controller;
 
-import com.anz.ms.accountenquiry.api.AccountResponse;
 import com.anz.ms.accountenquiry.api.AccountResponseList;
 import com.anz.ms.accountenquiry.api.TransactionResponseList;
 import com.anz.ms.accountenquiry.service.AccountService;
 import com.anz.ms.accountenquiry.validator.UserParamValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,12 +32,11 @@ public class AccountEnquiryController {
 
       AccountResponseList accountResponseList = accountService.retrieveAccounts(userCode);
 
-      for (AccountResponse accountResponse : accountResponseList.getAccountResponseList()) {
-          accountResponse.add(linkTo(methodOn(AccountEnquiryController.class)
-                  .retrieveTransactions(accountResponse.getAccountNumber())).withRel("transactions"));
-      }
+      accountResponseList.getAccountResponseList().forEach(accountResponse ->
+              accountResponse.add(linkTo(methodOn(AccountEnquiryController.class)
+              .retrieveTransactions(accountResponse.getAccountNumber())).withRel("transactions")));
 
-      return new ResponseEntity<>(accountResponseList, accountResponseList.getHttpStatus());
+      return new ResponseEntity<>(accountResponseList, HttpStatus.OK);
     }
 
     @GetMapping("/account-enquiry/accounts/{account-number}/transactions")
@@ -52,6 +51,6 @@ public class AccountEnquiryController {
         transactionResponseList.add(linkTo(methodOn(AccountEnquiryController.class).retrieveAccounts(
                 transactionResponseList.getAccount().getUser().getUserCode())).withRel("accounts"));
 
-        return new ResponseEntity<>(transactionResponseList, transactionResponseList.getHttpStatus());
+        return new ResponseEntity<>(transactionResponseList, HttpStatus.OK);
     }
 }
