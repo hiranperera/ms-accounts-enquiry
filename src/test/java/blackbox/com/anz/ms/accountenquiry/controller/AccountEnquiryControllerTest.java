@@ -18,7 +18,6 @@ import static org.springframework.test.context.jdbc.Sql.*;
 @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = {"/db/cleanup.sql"})
 public class AccountEnquiryControllerTest {
 
-    @LocalServerPort
     private final int serverPort = 8090;
 
     private final String API_RETRIEVE_ACCOUNTS = "http://localhost:" + serverPort + "/account-enquiry/users/{userCode}/accounts";
