@@ -13,7 +13,6 @@ import com.anz.ms.accountenquiry.repository.db.entity.Transaction;
 import com.anz.ms.accountenquiry.repository.db.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -30,6 +29,11 @@ public class AccountServiceImpl implements AccountService {
     private final UserRepository userRepository;
     private final EntityResponseMapper entityResponseMapper;
 
+    /**
+     * Get the relevant accounts to a given user code.
+     * @param userCode user code
+     * @return List of accounts
+     */
     @Override
     public AccountResponseList retrieveAccounts(@NotNull String userCode) {
         User user = userRepository.findByUserCode(userCode);
@@ -50,6 +54,11 @@ public class AccountServiceImpl implements AccountService {
         return AccountResponseList.builder().accountResponseList(accountResponses).build();
     }
 
+    /**
+     * Get the transactions for a given account id.
+     * @param accountId account id
+     * @return List of transactions.
+     */
     @Override
     public TransactionResponseList retrieveTransactions(@NotNull Long accountId) {
         Account account = accountRepository.findByAccountId(accountId);

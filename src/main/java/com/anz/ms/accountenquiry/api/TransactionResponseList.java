@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.hateoas.RepresentationModel;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 

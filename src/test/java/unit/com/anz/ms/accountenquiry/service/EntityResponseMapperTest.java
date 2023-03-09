@@ -2,7 +2,9 @@ package unit.com.anz.ms.accountenquiry.service;
 
 import com.anz.ms.accountenquiry.api.AccountResponse;
 import com.anz.ms.accountenquiry.api.TransactionResponse;
-import com.anz.ms.accountenquiry.repository.db.entity.*;
+import com.anz.ms.accountenquiry.repository.db.entity.Account;
+import com.anz.ms.accountenquiry.repository.db.entity.Transaction;
+import com.anz.ms.accountenquiry.repository.db.entity.TransactionType;
 import com.anz.ms.accountenquiry.service.EntityResponseMapper;
 import common.TestDataProvider;
 import org.junit.jupiter.api.Test;

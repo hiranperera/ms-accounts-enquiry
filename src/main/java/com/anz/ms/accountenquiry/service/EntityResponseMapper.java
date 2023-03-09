@@ -12,6 +12,11 @@ import javax.validation.constraints.NotNull;
 @Component
 public class EntityResponseMapper {
 
+    /**
+     * Map the Account object into AccountResponse object.
+     * @param account Account
+     * @return Account Response
+     */
     public AccountResponse mapAccountToAccountResponse(@NotNull Account account) {
         return AccountResponse.builder()
                 .accountId(account.getAccountId())
@@ -24,6 +29,11 @@ public class EntityResponseMapper {
                 .build();
     }
 
+    /**
+     * Map the Transaction object into TransactionResponse object.
+     * @param transaction Transaction
+     * @return TransactionResponse
+     */
     public TransactionResponse mapTransactionToTransactionResponse(@NotNull Transaction transaction) {
         return TransactionResponse.builder()
                 .accountNumber(transaction.getAccount().getAccountNumber())

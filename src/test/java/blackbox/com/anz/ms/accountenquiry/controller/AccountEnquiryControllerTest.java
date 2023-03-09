@@ -9,7 +9,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.context.jdbc.Sql.*;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")

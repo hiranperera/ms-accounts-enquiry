@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @Slf4j
@@ -32,6 +33,7 @@ public class AccountEnquiryController {
 
       AccountResponseList accountResponseList = accountService.retrieveAccounts(userCode);
 
+      // Create links to the each account to access transactions.
       accountResponseList.getAccountResponseList().forEach(accountResponse ->
               accountResponse.add(linkTo(methodOn(AccountEnquiryController.class)
               .retrieveTransactions(accountResponse.getAccountId())).withRel("transactions")));
@@ -47,6 +49,7 @@ public class AccountEnquiryController {
 
         userParamValidator.validateAccountId(accountId);
 
+        // Create the link to go back to the accounts list.
         TransactionResponseList transactionResponseList = accountService.retrieveTransactions(accountId);
         transactionResponseList.add(linkTo(methodOn(AccountEnquiryController.class).retrieveAccounts(
                 transactionResponseList.getAccount().getUser().getUserCode())).withRel("accounts"));
