@@ -12,7 +12,7 @@ public class TransactionResponse {
     private String accountNumber;
     private String accountName;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "MMM, dd, yyyy")
     private LocalDate valueDate;
 
     private String currency;

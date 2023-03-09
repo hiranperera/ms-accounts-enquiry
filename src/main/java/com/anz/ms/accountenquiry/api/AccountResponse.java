@@ -15,7 +15,7 @@ public class AccountResponse extends RepresentationModel<AccountResponse> {
     private String accountName;
     private String accountType;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate balanceDate;
 
     private String currency;
