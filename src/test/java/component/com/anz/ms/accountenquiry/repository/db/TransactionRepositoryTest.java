@@ -33,9 +33,9 @@ public class TransactionRepositoryTest {
     private AccountRepository accountRepository;
 
     @Test
-    public void findByAccountValidAccountTest() {
+    public void findByAccountAvailableAccountTest() {
 
-        Account account = accountRepository.findByAccountNumber("ACCNUMBER_123457");
+        Account account = accountRepository.findByAccountId(3L);
 
         List<Transaction> transactions = transactionRepository.findByAccount(account);
 
@@ -57,9 +57,9 @@ public class TransactionRepositoryTest {
     }
 
     @Test
-    public void findByAccountWithNoTransactionTest() {
+    public void findByAccountWithNoTransactionAvailableTest() {
 
-        Account account = accountRepository.findByAccountNumber("ACCNAME_PERSONAL_1");
+        Account account = accountRepository.findByAccountId(2L);
 
         List<Transaction> transactions = transactionRepository.findByAccount(account);
 

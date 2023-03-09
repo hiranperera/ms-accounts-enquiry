@@ -41,3 +41,6 @@ To view the API documentation in interactive way, use the below swagger URL. Thi
 The following assumptions has been taken for the development of this service.
 * Authentication and authorisation considered as out of scope. Hence, user validation for the requests is not considered.
 * Amounts of the accounts and transactions are taken directly from the database without any calculations.
+
+### Enhancements
+* To improve the security, JWT token can be used to retrieve the user-id instead of passing in the URL in the retrieve accounts API.

@@ -14,6 +14,7 @@ public class EntityResponseMapper {
 
     public AccountResponse mapAccountToAccountResponse(@NotNull Account account) {
         return AccountResponse.builder()
+                .accountId(account.getAccountId())
                 .accountNumber(account.getAccountNumber())
                 .accountName(account.getAccountName())
                 .accountType(account.getAccountType().getName())

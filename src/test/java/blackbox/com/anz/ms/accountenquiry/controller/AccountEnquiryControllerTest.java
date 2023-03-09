@@ -3,7 +3,6 @@ package blackbox.com.anz.ms.accountenquiry.controller;
 import com.anz.ms.accountenquiry.Application;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -38,7 +37,7 @@ public class AccountEnquiryControllerTest {
                 .body("accountResponseList[0].currency", is("AUD"))
                 .body("accountResponseList[0].openingAvailableBalance", is(6800.57F))
                 .body("accountResponseList[0].links", notNullValue())
-                .body("accountResponseList[0].links[0].href", is(API_RETRIEVE_TRANSACTIONS.replaceFirst("\\{accountNumber\\}", "ACCNUMBER_123456")))
+                .body("accountResponseList[0].links[0].href", is(API_RETRIEVE_TRANSACTIONS.replaceFirst("\\{accountNumber\\}", "2")))
                 .body("accountResponseList[1].accountNumber", is("ACCNUMBER_123457"))
                 .body("accountResponseList[1].accountName", is("ACCNAME_PERSONAL_2"))
                 .body("accountResponseList[1].accountType", is("Savings"))
@@ -46,7 +45,7 @@ public class AccountEnquiryControllerTest {
                 .body("accountResponseList[1].currency", is("AUD"))
                 .body("accountResponseList[1].openingAvailableBalance", equalTo(9000.33F))
                 .body("accountResponseList[1].links", notNullValue())
-                .body("accountResponseList[1].links[0].href", is(API_RETRIEVE_TRANSACTIONS.replaceFirst("\\{accountNumber\\}", "ACCNUMBER_123457")));
+                .body("accountResponseList[1].links[0].href", is(API_RETRIEVE_TRANSACTIONS.replaceFirst("\\{accountNumber\\}", "3")));
     }
 
     @Test
@@ -54,7 +53,7 @@ public class AccountEnquiryControllerTest {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
-                .get(API_RETRIEVE_TRANSACTIONS, "ACCNUMBER_123457")
+                .get(API_RETRIEVE_TRANSACTIONS, "3")
                 .then()
                 .statusCode(200)
                 .body("transactionResponseList[0].accountNumber", is("ACCNUMBER_123457"))
@@ -77,7 +76,7 @@ public class AccountEnquiryControllerTest {
     }
 
     @Test
-    public void retrieveAccountsForInvalidUser4xx() {
+    public void retrieveAccountsForNotAvailableUser4xx() {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
@@ -103,28 +102,28 @@ public class AccountEnquiryControllerTest {
     }
 
     @Test
-    public void retrieveTransactionsForInvalidAccount_4xx() {
+    public void retrieveTransactionsForNotAvailableAccount_4xx() {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
-                .get(API_RETRIEVE_TRANSACTIONS, "INVALID_ACCOUNT_NUMBER")
+                .get(API_RETRIEVE_TRANSACTIONS, 100)
                 .then()
                 .statusCode(404)
                 .body("errorId", is("DATA_NOT_FOUND"))
-                .body("message", is("Account not found for Account Number: INVALID_ACCOUNT_NUMBER"))
+                .body("message", is("Account not found for Account Id: 100"))
                 .body("status", is("NOT_FOUND"));
     }
 
     @Test
-    public void retrieveTransactionsForBlankAccount_4xx() {
+    public void retrieveTransactionsForInvalidAccount_4xx() {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
-                .get(API_RETRIEVE_TRANSACTIONS, " ")
+                .get(API_RETRIEVE_TRANSACTIONS, -1)
                 .then()
                 .statusCode(400)
                 .body("errorId", is("USER_PARAM_INVALID"))
-                .body("message", is("Account number code is blank"))
+                .body("message", is("Account id is invalid"))
                 .body("status", is("BAD_REQUEST"));
     }
 }

@@ -47,7 +47,7 @@ public class AccountServiceImplTest {
     private AccountServiceImpl accountService;
 
     @Test
-    public void testRetrieveTransactionsForValidAccount() {
+    public void testRetrieveTransactionsForAvailableAccount() {
         String accountNumber = "ACCNUMBER1";
         String accountName = "ACCNAME1";
         String accountType = "Current";
@@ -66,7 +66,7 @@ public class AccountServiceImplTest {
 
         Account account = TestDataProvider.getValidAccount(accountNumber, accountName, accountType, accountCurrency, accountBalance, date);
 
-        when(accountRepository.findByAccountNumber(any())).thenReturn(account);
+        when(accountRepository.findByAccountId(any())).thenReturn(account);
         when(transactionRepository.findByAccount(any())).thenReturn(List.of(
                 TestDataProvider.getValidTransaction(account, transactionDescription1, transactionCurrency1, transactionAmount1, date),
                 TestDataProvider.getValidTransaction(account, transactionDescription2, transactionCurrency2, transactionAmount2, date)
@@ -118,16 +118,16 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void testRetrieveTransactionsForInvalidAccount() {
-        when(accountRepository.findByAccountNumber(any())).thenReturn(null);
+    public void testRetrieveTransactionsForNotAvailableAccount() {
+        when(accountRepository.findByAccountId(any())).thenReturn(null);
 
-        DataNotFoundException exception = assertThrows(DataNotFoundException.class, () -> accountService.retrieveTransactions("INVALID_ACC"));
+        DataNotFoundException exception = assertThrows(DataNotFoundException.class, () -> accountService.retrieveTransactions(100L));
 
-        assertEquals(exception.getMessage(), "Account not found for Account Number: INVALID_ACC");
+        assertEquals(exception.getMessage(), "Account not found for Account Id: 100");
     }
 
     @Test
-    public void testRetrieveMultipleValidAccountsForValidUser() {
+    public void testRetrieveMultipleAvailableAccountsForValidUser() {
         String accountNumber1 = "ACCNUMBER1";
         String accountNumber2 = "ACCNUMBER2";
         String accountName1 = "ACCNAME1";
@@ -183,8 +183,8 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void testRetrieveAccountsForInvalidUser() {
-        when(accountRepository.findByAccountNumber(any())).thenReturn(null);
+    public void testRetrieveAccountsForNotAvailableUser() {
+        when(accountRepository.findByAccountId(any())).thenReturn(null);
 
         var exception = assertThrows(DataNotFoundException.class, () -> accountService.retrieveAccounts("INVALID_USER"));
 

@@ -34,20 +34,20 @@ public class AccountEnquiryController {
 
       accountResponseList.getAccountResponseList().forEach(accountResponse ->
               accountResponse.add(linkTo(methodOn(AccountEnquiryController.class)
-              .retrieveTransactions(accountResponse.getAccountNumber())).withRel("transactions")));
+              .retrieveTransactions(accountResponse.getAccountId())).withRel("transactions")));
 
       return new ResponseEntity<>(accountResponseList, HttpStatus.OK);
     }
 
-    @GetMapping("/account-enquiry/accounts/{account-number}/transactions")
+    @GetMapping("/account-enquiry/accounts/{account-id}/transactions")
     public ResponseEntity<TransactionResponseList> retrieveTransactions(
-            @PathVariable(name = "account-number") final String accountNumber
+            @PathVariable(name = "account-id") final Long accountId
     ) {
         log.info("message=\"Transaction retrieval request received\"");
 
-        userParamValidator.validateAccountNumber(accountNumber);
+        userParamValidator.validateAccountId(accountId);
 
-        TransactionResponseList transactionResponseList = accountService.retrieveTransactions(accountNumber);
+        TransactionResponseList transactionResponseList = accountService.retrieveTransactions(accountId);
         transactionResponseList.add(linkTo(methodOn(AccountEnquiryController.class).retrieveAccounts(
                 transactionResponseList.getAccount().getUser().getUserCode())).withRel("accounts"));
 

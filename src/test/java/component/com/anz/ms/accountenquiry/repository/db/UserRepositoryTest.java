@@ -24,7 +24,7 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void findByUserCodeValidCodeTest() {
+    public void findByUserCodeAvailableCodeTest() {
         User user = userRepository.findByUserCode("U0001");
 
         assertNotNull(user);
@@ -33,7 +33,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void findByUserCodeInvalidCodeTest() {
+    public void findByUserCodeNotAvailableCodeTest() {
         User user = userRepository.findByUserCode("INVALID_USER_CODE");
 
         assertNull(user);

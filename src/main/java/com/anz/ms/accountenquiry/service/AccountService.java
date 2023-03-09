@@ -8,5 +8,5 @@ import javax.validation.constraints.NotNull;
 public interface AccountService {
     AccountResponseList retrieveAccounts(@NotNull String userCode);
 
-    TransactionResponseList retrieveTransactions(@NotNull String accountNumber);
+    TransactionResponseList retrieveTransactions(@NotNull Long accountId);
 }

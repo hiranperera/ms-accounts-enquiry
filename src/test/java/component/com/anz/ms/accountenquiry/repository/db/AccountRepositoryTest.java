@@ -32,8 +32,8 @@ public class AccountRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void findByAccountNumberValidAccount() {
-        Account account = accountRepository.findByAccountNumber("ACCNUMBER_123455");
+    public void findByAccountNumberAvailableAccount() {
+        Account account = accountRepository.findByAccountId(1L);
 
         assertNotNull(account);
         assertEquals(account.getAccountNumber(), "ACCNUMBER_123455");
@@ -47,14 +47,14 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    public void findByAccountNumberInvalidAccount() {
-        Account account = accountRepository.findByAccountNumber("INVALID_ACCOUNT_NUMBER");
+    public void findByAccountNumberNotAvailableAccount() {
+        Account account = accountRepository.findByAccountId(100L);
 
         assertNull(account);
     }
 
     @Test
-    public void findByUserValidUser() {
+    public void findByUserAvailableUser() {
         User user = userRepository.findByUserCode("U0003");
         List<Account> accounts = accountRepository.findByUser(user);
 
@@ -81,7 +81,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    public void findByUserInvalidUser() {
+    public void findByUserNotAvailableUser() {
         User user = userRepository.findByUserCode("INVALID_USER_CODE");
 
         assertNull(user);

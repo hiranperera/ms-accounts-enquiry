@@ -51,18 +51,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public TransactionResponseList retrieveTransactions(@NotNull String accountNumber) {
-        Account account = accountRepository.findByAccountNumber(accountNumber);
+    public TransactionResponseList retrieveTransactions(@NotNull Long accountId) {
+        Account account = accountRepository.findByAccountId(accountId);
 
         if (account == null) {
-            throw new DataNotFoundException(String.format("Account not found for Account Number: %s", accountNumber));
+            throw new DataNotFoundException(String.format("Account not found for Account Id: %d", accountId));
         }
 
-        log.debug("message=\"Account retrieved from the database for the account number: {}\"", accountNumber);
+        log.debug("message=\"Account retrieved from the database for the account id: {}\"", accountId);
 
         List<Transaction> transactions = transactionRepository.findByAccount(account);
 
-        log.debug("message=\"Transactions ({}) retrieved from the database for the account number: {}\"", transactions.size(), accountNumber);
+        log.debug("message=\"Transactions ({}) retrieved from the database for the account id: {}\"", transactions.size(), accountId);
 
         List<TransactionResponse> transactionResponses = transactions.stream().map(entityResponseMapper::mapTransactionToTransactionResponse)
                 .collect(Collectors.toList());

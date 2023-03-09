@@ -18,6 +18,14 @@ public class UserParamValidator {
         validateBlank(userCode, "User code is blank");
     }
 
+    public void validateAccountId(Long accountId) {
+        if (accountId <= 0) {
+            log.debug("Account id: {} is invalid", accountId);
+
+            throw new UserParameterInvalidException("Account id is invalid");
+        }
+    }
+
     public void validateAccountNumber(String accountNumber) {
         validateBlank(accountNumber, "Account number code is blank");
         validateSpecialCharacters(accountNumber, "Account number contains special characters");
