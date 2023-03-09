@@ -34,8 +34,9 @@ public class AccountServiceImpl implements AccountService {
     public AccountResponseList retrieveAccounts(@NotNull String userCode) {
         User user = userRepository.findByUserCode(userCode);
 
-        if (user == null)
+        if (user == null) {
             throw new DataNotFoundException(String.format("User not found for User Code: %s", userCode));
+        }
 
         log.debug("message=\"User retrieved from the database for the user code: {}\"", userCode);
 
@@ -53,8 +54,9 @@ public class AccountServiceImpl implements AccountService {
     public TransactionResponseList retrieveTransactions(@NotNull String accountNumber) {
         Account account = accountRepository.findByAccountNumber(accountNumber);
 
-        if (account == null)
+        if (account == null) {
             throw new DataNotFoundException(String.format("Account not found for Account Number: %s", accountNumber));
+        }
 
         log.debug("message=\"Account retrieved from the database for the account number: {}\"", accountNumber);
 
