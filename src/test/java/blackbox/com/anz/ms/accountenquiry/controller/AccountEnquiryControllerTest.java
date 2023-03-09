@@ -20,7 +20,7 @@ public class AccountEnquiryControllerTest {
     private final int serverPort = 8090;
 
     private final String API_RETRIEVE_ACCOUNTS = "http://localhost:" + serverPort + "/account-enquiry/users/{userCode}/accounts";
-    private final String API_RETRIEVE_TRANSACTIONS = "http://localhost:" + serverPort + "/account-enquiry/accounts/{accountNumber}/transactions";
+    private final String API_RETRIEVE_TRANSACTIONS = "http://localhost:" + serverPort + "/account-enquiry/users/{userCode}/accounts/{accountNumber}/transactions";
 
     @Test
     public void retrieveAccountsForGivenUser2xx() {
@@ -37,7 +37,9 @@ public class AccountEnquiryControllerTest {
                 .body("accountResponseList[0].currency", is("AUD"))
                 .body("accountResponseList[0].openingAvailableBalance", is(6800.57F))
                 .body("accountResponseList[0].links", notNullValue())
-                .body("accountResponseList[0].links[0].href", is(API_RETRIEVE_TRANSACTIONS.replaceFirst("\\{accountNumber\\}", "2")))
+                .body("accountResponseList[0].links[0].href", is(API_RETRIEVE_TRANSACTIONS
+                        .replaceFirst("\\{accountNumber\\}", "2")
+                        .replaceFirst("\\{userCode\\}", "U0003")))
                 .body("accountResponseList[1].accountNumber", is("ACCNUMBER_123457"))
                 .body("accountResponseList[1].accountName", is("ACCNAME_PERSONAL_2"))
                 .body("accountResponseList[1].accountType", is("Savings"))
@@ -45,7 +47,9 @@ public class AccountEnquiryControllerTest {
                 .body("accountResponseList[1].currency", is("AUD"))
                 .body("accountResponseList[1].openingAvailableBalance", equalTo(9000.33F))
                 .body("accountResponseList[1].links", notNullValue())
-                .body("accountResponseList[1].links[0].href", is(API_RETRIEVE_TRANSACTIONS.replaceFirst("\\{accountNumber\\}", "3")));
+                .body("accountResponseList[1].links[0].href", is(API_RETRIEVE_TRANSACTIONS
+                        .replaceFirst("\\{accountNumber\\}", "3")
+                        .replaceFirst("\\{userCode\\}", "U0003")));
     }
 
     @Test
@@ -53,7 +57,7 @@ public class AccountEnquiryControllerTest {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
-                .get(API_RETRIEVE_TRANSACTIONS, "3")
+                .get(API_RETRIEVE_TRANSACTIONS, "U0003", "3")
                 .then()
                 .statusCode(200)
                 .body("transactionResponseList[0].accountNumber", is("ACCNUMBER_123457"))
@@ -106,7 +110,7 @@ public class AccountEnquiryControllerTest {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
-                .get(API_RETRIEVE_TRANSACTIONS, 100)
+                .get(API_RETRIEVE_TRANSACTIONS, "U0003", 100)
                 .then()
                 .statusCode(404)
                 .body("errorId", is("DATA_NOT_FOUND"))
@@ -119,11 +123,24 @@ public class AccountEnquiryControllerTest {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
-                .get(API_RETRIEVE_TRANSACTIONS, -1)
+                .get(API_RETRIEVE_TRANSACTIONS, "U0003", -1)
                 .then()
                 .statusCode(400)
                 .body("errorId", is("USER_PARAM_INVALID"))
                 .body("message", is("Account id is invalid"))
                 .body("status", is("BAD_REQUEST"));
+    }
+
+    @Test
+    public void retrieveTransactionsForUnentitledAccount_4xx() {
+        given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get(API_RETRIEVE_TRANSACTIONS, "U0003", 1)
+                .then()
+                .statusCode(401)
+                .body("errorId", is("USER_ENTITLEMENT_FAILED"))
+                .body("message", is("Account (Account ID): 1 & access is not entitled to the user (User Code): U0003"))
+                .body("status", is("UNAUTHORIZED"));
     }
 }

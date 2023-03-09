@@ -9,4 +9,6 @@ public interface AccountService {
     AccountResponseList retrieveAccounts(@NotNull String userCode);
 
     TransactionResponseList retrieveTransactions(@NotNull Long accountId);
+
+    void validateAccountEntitlement(@NotNull String userCode, @NotNull Long accountId);
 }

@@ -36,18 +36,23 @@ public class AccountEnquiryController {
       // Create links to the each account to access transactions.
       accountResponseList.getAccountResponseList().forEach(accountResponse ->
               accountResponse.add(linkTo(methodOn(AccountEnquiryController.class)
-              .retrieveTransactions(accountResponse.getAccountId())).withRel("transactions")));
+              .retrieveTransactions(accountResponseList.getUserCode(), accountResponse.getAccountId())).withRel("transactions")));
 
       return new ResponseEntity<>(accountResponseList, HttpStatus.OK);
     }
 
-    @GetMapping("/account-enquiry/accounts/{account-id}/transactions")
+    @GetMapping("/account-enquiry/users/{user-code}/accounts/{account-id}/transactions")
     public ResponseEntity<TransactionResponseList> retrieveTransactions(
+            @PathVariable(name = "user-code") final String userCode,
             @PathVariable(name = "account-id") final Long accountId
     ) {
         log.info("message=\"Transaction retrieval request received\"");
 
+        userParamValidator.validateUserCode(userCode);
         userParamValidator.validateAccountId(accountId);
+
+        // Check whether the user has the authorisation to the account.
+        accountService.validateAccountEntitlement(userCode, accountId);
 
         // Create the link to go back to the accounts list.
         TransactionResponseList transactionResponseList = accountService.retrieveTransactions(accountId);

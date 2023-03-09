@@ -4,6 +4,7 @@ import com.anz.ms.accountenquiry.api.AccountResponse;
 import com.anz.ms.accountenquiry.api.AccountResponseList;
 import com.anz.ms.accountenquiry.api.TransactionResponse;
 import com.anz.ms.accountenquiry.api.TransactionResponseList;
+import com.anz.ms.accountenquiry.exception.AccountEntitlementFailureException;
 import com.anz.ms.accountenquiry.exception.DataNotFoundException;
 import com.anz.ms.accountenquiry.repository.db.AccountRepository;
 import com.anz.ms.accountenquiry.repository.db.TransactionRepository;
@@ -51,7 +52,7 @@ public class AccountServiceImpl implements AccountService {
         List<AccountResponse> accountResponses = accounts.stream().map(entityResponseMapper::mapAccountToAccountResponse)
                 .collect(Collectors.toList());
 
-        return AccountResponseList.builder().accountResponseList(accountResponses).build();
+        return AccountResponseList.builder().accountResponseList(accountResponses).userCode(userCode).build();
     }
 
     /**
@@ -79,5 +80,26 @@ public class AccountServiceImpl implements AccountService {
         return TransactionResponseList.builder()
                 .account(account)
                 .transactionResponseList(transactionResponses).build();
+    }
+
+    /**
+     * Check the account entitlement for the user.
+     * @param userCode User Code
+     * @param accountId Account Id
+     */
+    @Override
+    public void validateAccountEntitlement(String userCode, Long accountId) {
+        Account account = accountRepository.findByAccountId(accountId);
+
+        if (account == null) {
+            throw new DataNotFoundException(String.format("Account not found for Account Id: %d", accountId));
+        }
+
+        log.debug("message=\"Account retrieved from the database for the account id: {}\"", accountId);
+
+        if (account.getUser() != null && !userCode.equals(account.getUser().getUserCode())) {
+            throw new AccountEntitlementFailureException(
+                    String.format("Account (Account ID): %d & access is not entitled to the user (User Code): %s", accountId, userCode));
+        }
     }
 }

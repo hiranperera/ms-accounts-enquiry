@@ -4,6 +4,7 @@ import com.anz.ms.accountenquiry.api.AccountResponse;
 import com.anz.ms.accountenquiry.api.AccountResponseList;
 import com.anz.ms.accountenquiry.api.TransactionResponse;
 import com.anz.ms.accountenquiry.api.TransactionResponseList;
+import com.anz.ms.accountenquiry.exception.AccountEntitlementFailureException;
 import com.anz.ms.accountenquiry.exception.DataNotFoundException;
 import com.anz.ms.accountenquiry.repository.db.AccountRepository;
 import com.anz.ms.accountenquiry.repository.db.TransactionRepository;
@@ -189,5 +190,25 @@ public class AccountServiceImplTest {
         var exception = assertThrows(DataNotFoundException.class, () -> accountService.retrieveAccounts("INVALID_USER"));
 
         assertEquals(exception.getMessage(), "User not found for User Code: INVALID_USER");
+    }
+
+    @Test
+    public void testRetrieveAccountsUnentitledUser() {
+        String accountNumber = "ACCNUMBER1";
+        String accountName = "ACCNAME1";
+        String accountType = "Current";
+        String accountCurrency = "SGD";
+        Double accountBalance = 100.25;
+        LocalDate date = LocalDate.now();
+
+        Account account = TestDataProvider.getValidAccount(accountName, accountNumber,
+                accountType, accountCurrency, accountBalance, date);
+
+        when(accountRepository.findByAccountId(any())).thenReturn(account);
+
+        var exception = assertThrows(AccountEntitlementFailureException.class, () ->
+                accountService.validateAccountEntitlement("ANOTHER_USER", account.getAccountId()));
+
+        assertEquals(exception.getMessage(), "Account (Account ID): 1 & access is not entitled to the user (User Code): ANOTHER_USER");
     }
 }

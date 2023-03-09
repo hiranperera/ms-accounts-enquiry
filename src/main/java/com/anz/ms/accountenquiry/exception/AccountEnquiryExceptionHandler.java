@@ -36,6 +36,20 @@ public class AccountEnquiryExceptionHandler {
                         .build(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(AccountEntitlementFailureException.class)
+    public ResponseEntity<ApiError> handleAccountEntitlementFailureException(final AccountEntitlementFailureException exception) {
+        logException(exception);
+
+        return new ResponseEntity<>(
+                ApiError
+                        .builder()
+                        .errorId(ErrorId.USER_ENTITLEMENT_FAILED.getErrorId())
+                        .message(exception.getMessage())
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .build(), HttpStatus.UNAUTHORIZED);
+    }
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleException(final Exception exception) {
         logException(exception);
