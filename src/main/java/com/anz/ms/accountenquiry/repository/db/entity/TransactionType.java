@@ -5,14 +5,12 @@ import lombok.Getter;
 @Getter
 public enum TransactionType {
 
-    CREDIT (1, "Credit"),
-    DEBIT (2, "Debit");
+    CREDIT ("Credit"),
+    DEBIT ("Debit");
 
-    private final Integer id;
     private final String name;
 
-    TransactionType(Integer id, String name) {
-        this.id = id;
+    TransactionType(String name) {
         this.name = name;
     }
 }

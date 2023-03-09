@@ -28,7 +28,7 @@ CREATE TABLE `transaction` (
   `transaction_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `amount` double NOT NULL,
   `narrative` varchar(255) DEFAULT NULL,
-  `type` int(11) NOT NULL,
+  `type` varchar(10) NOT NULL,
   `value_date` date DEFAULT NULL,
   `account_id` bigint(20) DEFAULT NULL,
   `currency_id` int(11) NOT NULL,

@@ -45,7 +45,7 @@ VALUES (
     100.35,
     (select `id` from `account-enquiry-db`.`currency` where `name` = 'AUD'),
     'test transaction',
-    1,
+    'CREDIT',
     '2023-03-01',
     (select `account_id` from `account-enquiry-db`.`account` where `account_number` = 'ACCNUMBER_123457'));
 
@@ -54,7 +54,7 @@ VALUES (
     700.50,
     (select `id` from `account-enquiry-db`.`currency` where `name` = 'AUD'),
     'test transaction',
-    2,
+    'DEBIT',
     '2023-03-02',
     (select `account_id` from `account-enquiry-db`.`account` where `account_number` = 'ACCNUMBER_123457'));
 
@@ -63,6 +63,6 @@ VALUES (
     158.45,
     (select `id` from `account-enquiry-db`.`currency` where `name` = 'SGD'),
     'test transaction',
-    1,
+    'CREDIT',
     '2023-03-03',
     (select `account_id` from `account-enquiry-db`.`account` where `account_number` = 'ACCNUMBER_123455'));

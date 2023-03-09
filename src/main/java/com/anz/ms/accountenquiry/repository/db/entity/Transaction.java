@@ -34,6 +34,7 @@ public class Transaction {
     private Double amount;
 
     @Column(name = "type", nullable = false)
+    @Enumerated (EnumType.STRING)
     private TransactionType transactionType;
 
     @Column(name = "narrative")
