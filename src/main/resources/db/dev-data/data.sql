@@ -3,6 +3,8 @@ delete from `account-enquiry-db`.`transaction`;
 delete from `account-enquiry-db`.`account`;
 delete from `account-enquiry-db`.`user`;
 
+alter table `account-enquiry-db`.`account` AUTO_INCREMENT = 1;
+
 -- insert users
 INSERT INTO `account-enquiry-db`.`user` (`name`, `code`) VALUES ('Hiran Perera', 'U0001');
 INSERT INTO `account-enquiry-db`.`user` (`name`, `code`) VALUES ('Hashini Kithmini', 'U0002');
