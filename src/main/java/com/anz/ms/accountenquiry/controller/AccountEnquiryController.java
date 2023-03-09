@@ -24,7 +24,7 @@ public class AccountEnquiryController {
 
     @GetMapping("/account-enquiry/users/{user-code}/accounts")
     public ResponseEntity<AccountResponseList> retrieveAccounts(
-            @PathVariable(name = "user-code") String userCode
+            @PathVariable(name = "user-code") final String userCode
     ) {
       log.info("message=\"Accounts retrieval request received\"");
 
@@ -42,7 +42,7 @@ public class AccountEnquiryController {
 
     @GetMapping("/account-enquiry/accounts/{account-number}/transactions")
     public ResponseEntity<TransactionResponseList> retrieveTransactions(
-            @PathVariable(name = "account-number") String accountNumber
+            @PathVariable(name = "account-number") final String accountNumber
     ) {
         log.info("message=\"Transaction retrieval request received\"");
 
