@@ -17,7 +17,7 @@ The following technologies has been used to develop this service.
 Need to move inside the ```/ms-accounts-enquiry/docker``` location and run the following command. 
 
 ```shell
-docker compose up
+docker-compose up
 ```
 
 ### Start the application
