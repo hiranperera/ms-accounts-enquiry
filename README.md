@@ -11,6 +11,7 @@ The following technologies has been used to develop this service.
 * Flyway
 * JUnit5
 * RestAssured
+* Maven
 
 ## How to Run
 ### Run the docker compose to start the database
